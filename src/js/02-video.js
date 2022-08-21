@@ -23,20 +23,21 @@ player.on('timeupdate', throttle(onPlay, 1000));
 const dateVideo = JSON.parse(
   localStorage.getItem('videoplayer - current - time')
 );
+if (dateVideo) {
+  player
+    .setCurrentTime(dateVideo.seconds)
+    .then(function (seconds) {
+      seconds = dateVideo.seconds;
+    })
+    .catch(function (error) {
+      switch (error.name) {
+        case 'RangeError':
+          console.log(`not in range`);
+          break;
 
-player
-  .setCurrentTime(dateVideo.seconds)
-  .then(function (seconds) {
-    seconds = dateVideo.seconds;
-  })
-  .catch(function (error) {
-    switch (error.name) {
-      case 'RangeError':
-        console.log(`not in range`);
-        break;
-
-      default:
-        console.log(`Error`);
-        break;
-    }
-  });
+        default:
+          console.log(`Error`);
+          break;
+      }
+    });
+}
